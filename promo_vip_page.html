@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PROMO VIP — Entrar no grupo</title>
+<style>
+  :root{
+    --main:#ff6fa3; /* rosa principal */
+    --accent:#ffdce6;
+    --dark:#222;
+    --card-bg:#fff;
+    --radius:18px;
+    --shadow: 0 10px 30px rgba(0,0,0,0.12);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--accent),#fff);display:flex;align-items:center;justify-content:center;padding:20px;}
+  .card{width:100%;max-width:420px;background:var(--card-bg);border-radius:calc(var(--radius));box-shadow:var(--shadow);padding:22px;border:6px solid rgba(255,111,155,0.06);}
+  .logo-wrap{display:flex;justify-content:center;margin-top:-10px;}
+  .logo{
+    width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 30% 20%, #fff4, #ff6fa3);display:flex;align-items:center;justify-content:center;border:6px solid #fff;
+    box-shadow:0 6px 18px rgba(255,111,155,0.12);
+  }
+  .logo img{width:72px;height:72px;border-radius:50%;}
+  h1{font-size:20px;margin:18px 0 8px;color:var(--dark);text-align:center;font-weight:800;}
+  p.lead{color:#444;text-align:center;margin:0 0 14px;}
+  .timer-box{background:#fff3; border:1px solid rgba(255,111,155,0.12); padding:14px;border-radius:12px;text-align:center;margin:14px 0;}
+  .timer{font-size:32px;font-weight:800;color:var(--main);letter-spacing:1px;}
+  .vagas{font-weight:700;color:#111;text-align:center;margin:12px 0;}
+  .progress{height:14px;background:#f2f2f2;border-radius:999px;overflow:hidden;margin:10px 0;}
+  .progress > .bar{height:100%;width:0%;background:linear-gradient(90deg,var(--main),#ff9cc6);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-weight:700;font-size:12px;}
+  .cta{display:block;text-align:center;background:linear-gradient(180deg,var(--main),#ff5a92);color:#fff;padding:16px;border-radius:12px;font-weight:800;text-decoration:none;margin-top:12px;box-shadow:0 8px 20px rgba(255,111,155,0.14);}
+  .note{font-size:12px;color:#666;text-align:center;margin-top:10px;}
+  footer{font-size:11px;color:#bbb;text-align:center;margin-top:12px;}
+  @media (max-width:420px){.card{padding:18px}}
+</style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <div class="logo-wrap">
+      <div class="logo" aria-hidden="true">
+        <!-- simple text logo -->
+        <svg width="72" height="72" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="50" cy="50" r="48" fill="white" />
+          <text x="50" y="56" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle" fill="#ff6fa3">VIP</text>
+        </svg>
+      </div>
+    </div>
+
+    <h1 id="title">PROMO VIP</h1>
+    <p class="lead">Receba as ofertas selecionadas antes de todo mundo. Entre para o grupo VIP e aproveite promoções exclusivas.</p>
+
+    <div class="timer-box" aria-live="polite">
+      <div style="font-weight:700;color:#333;margin-bottom:6px;">Acesso VIP liberado por tempo limitado</div>
+      <div class="timer" id="timer">03:00</div>
+    </div>
+
+    <div class="vagas" id="vagasText">Corra, restam apenas <strong id="remaining">82</strong> vagas disponíveis.</div>
+    <div class="progress" aria-hidden="true" title="Progresso de vagas">
+      <div class="bar" id="progressBar">77%</div>
+    </div>
+
+    <a id="ctaBtn" class="cta" href="https://chat.whatsapp.com/DUtj3pZ3S7z6sNHpJkpWIy?mode=wwt" target="_blank" rel="noopener noreferrer">Entrar no grupo oficial agora</a>
+
+    <div class="note">Sem spam. Só ofertas reais. Você pode sair quando quiser.</div>
+    <footer>© Promo VIP</footer>
+  </div>
+
+<script>
+  // CONFIGURÁVEIS (mude aqui se quiser ajustar)
+  let totalSlots = 100;
+  let remaining = 82;
+  let countdownSeconds = 3 * 60; // 3 minutos
+  const ctaLink = "https://chat.whatsapp.com/DUtj3pZ3S7z6sNHpJkpWIy?mode=wwt";
+
+  // Elementos
+  const remainingEl = document.getElementById('remaining');
+  const progressBar = document.getElementById('progressBar');
+  const timerEl = document.getElementById('timer');
+  const ctaBtn = document.getElementById('ctaBtn');
+
+  // Atualiza texto de vagas e barra
+  function updateSlots(){
+    if(remaining < 0) remaining = 0;
+    const percent = Math.round(( (totalSlots - remaining) / totalSlots) * 100);
+    remainingEl.textContent = remaining;
+    progressBar.style.width = percent + '%';
+    progressBar.textContent = percent + '%';
+    // se acabar
+    if(remaining === 0){
+      document.getElementById('vagasText').textContent = "Vagas esgotadas.";
+      ctaBtn.textContent = "Entrar na lista de espera";
+      ctaBtn.href = ctaLink;
+    }
+  }
+
+  // Inicia contador regressivo
+  function startCountdown(){
+    function tick(){
+      const min = Math.floor(countdownSeconds / 60);
+      const sec = countdownSeconds % 60;
+      timerEl.textContent = String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+      if(countdownSeconds <= 0){
+        // quando zera, podemos reiniciar automaticamente para manter sensação de urgência
+        countdownSeconds = 3*60; // reinicia 3:00 — ajuste se preferir outra ação
+      } else {
+        countdownSeconds--;
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // Decrementa vagas quando clicam no botão (comportamento local)
+  ctaBtn.addEventListener('click', function(){
+    // diminuir 1 vaga localmente para simular inscrição
+    if(remaining > 0){
+      remaining = remaining - 1;
+      updateSlots();
+    }
+    // abre link normalmente (target _blank)
+  });
+
+  // Inicializa
+  updateSlots();
+  startCountdown();
+</script>
+</body>
+</html>
