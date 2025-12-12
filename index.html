@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PROMO VIP — Entrar no grupo</title>
+<style>
+  :root{
+    --main:#ff6fa3;
+    --accent:#ffdce6;
+    --dark:#222;
+    --card-bg:#fff;
+    --radius:18px;
+    --shadow:0 10px 30px rgba(0,0,0,0.12);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--accent),#fff);display:flex;align-items:center;justify-content:center;padding:20px;}
+  .card{width:100%;max-width:420px;background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;border:6px solid rgba(255,111,155,0.06);}
+  h1{text-align:center;font-size:20px;color:var(--dark);font-weight:800;margin:18px 0 8px;}
+  p.lead{text-align:center;color:#444;margin:0 0 14px;}
+  .timer-box{background:#fff3;padding:14px;border:1px solid rgba(255,111,155,0.12);border-radius:12px;text-align:center;margin:14px 0;}
+  .timer{font-size:32px;font-weight:800;color:var(--main);}
+  .vagas{text-align:center;font-weight:700;margin:12px 0;color:#111;}
+  .progress{height:14px;background:#f2f2f2;border-radius:999px;overflow:hidden;margin:10px 0;}
+  .progress .bar{height:100%;background:linear-gradient(90deg,var(--main),#ff9cc6);text-align:right;padding-right:8px;color:#fff;font-weight:700;font-size:12px;}
+  .cta{display:block;text-align:center;background:linear-gradient(180deg,var(--main),#ff5a92);color:#fff;padding:16px;border-radius:12px;font-weight:800;text-decoration:none;box-shadow:0 8px 20px rgba(255,111,155,0.14);}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>PROMO VIP</h1>
+  <p class="lead">Receba ofertas selecionadas antes de todo mundo.</p>
+
+  <div class="timer-box">
+    <div>Acesso VIP liberado por tempo limitado</div>
+    <div class="timer" id="timer">03:00</div>
+  </div>
+
+  <div class="vagas">Corra, restam apenas <b id="remaining">82</b> vagas!</div>
+  <div class="progress">
+    <div class="bar" id="progressBar">77%</div>
+  </div>
+
+  <a class="cta" href="https://chat.whatsapp.com/DUtj3pZ3S7z6sNHpJkpWIy?mode=wwt" target="_blank">Entrar no grupo oficial agora</a>
+</div>
+
+<script>
+let total = 100;
+let restam = 82;
+let bar = document.getElementById("progressBar");
+let vagas = document.getElementById("remaining");
+
+function update(){
+  vagas.textContent = restam;
+  let pct = Math.round(((total-restam)/total)*100);
+  bar.style.width = pct+"%";
+  bar.textContent = pct+"%";
+}
+update();
+
+let t = 180;
+let timerEl = document.getElementById("timer");
+setInterval(()=>{
+  let m = Math.floor(t/60);
+  let s = t%60;
+  timerEl.textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  t--;
+  if(t<0)t=180;
+},1000);
+</script>
+</body>
+</html>
